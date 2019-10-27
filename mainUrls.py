@@ -5,7 +5,7 @@ from flask_caching import Cache
 from flask_cors import CORS, cross_origin
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 from flask_bootstrap import Bootstrap
-from connection import create_connection, main as connect_to_db
+from connection import main as connect_to_db
 
 import time
 import json
@@ -22,8 +22,6 @@ FlaskJSON(app)
 Bootstrap(app)
 CORS(app)
 cache.init_app(app)
-
-m = connect_to_db()
 
 @app.route("/")
 def available_desks():

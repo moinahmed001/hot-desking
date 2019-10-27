@@ -3,13 +3,13 @@
   {
     "id": 1,
     "floor": 1,
-    "seat_number": 1,
+    "desk_number": 1,
     "name": "user 1"
   },
   {
     "id": 3,
     "floor": 1,
-    "seat_number": 3,
+    "desk_number": 3,
     "name": "user 3"
   }
 ]

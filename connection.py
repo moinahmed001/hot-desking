@@ -17,34 +17,31 @@ def create_connection(db_file):
     return conn
 
 
-def create_project(conn, project):
+def create_desk(conn, desk):
     """
-    Create a new project into the projects table
+    Create a new row into the all_desks table
     :param conn:
-    :param project:
-    :return: project id
+    :param desk:
+    :return: desk id
     """
-    sql = ''' INSERT INTO projects(name,begin_date,end_date)
+    sql = ''' INSERT INTO all_desks(floor,desk_number,name,standing_desk,notes)
+              VALUES(?,?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, desk)
+    return cur.lastrowid
+
+def create_available_desk(conn, available_desk):
+    """
+    Create a new row into the available_desks table
+    :param conn:
+    :param available_desk:
+    :return: available_desk id
+    """
+    sql = ''' INSERT INTO available_desks(all_desks_id,available_types_id,date)
               VALUES(?,?,?) '''
     cur = conn.cursor()
-    cur.execute(sql, project)
+    cur.execute(sql, available_desk)
     return cur.lastrowid
-
-
-def create_task(conn, task):
-    """
-    Create a new task
-    :param conn:
-    :param task:
-    :return:
-    """
-
-    sql = ''' INSERT INTO tasks(name,priority,status_id,project_id,begin_date,end_date)
-              VALUES(?,?,?,?,?,?) '''
-    cur = conn.cursor()
-    cur.execute(sql, task)
-    return cur.lastrowid
-
 
 def main():
     database = r"/Users/jakir/Google Drive/apache/hot-desking/hotDeskingDB.db"
@@ -55,20 +52,6 @@ def main():
         print("success.")
     else:
         print("Error! cannot create the database connection.")
-
-
-    # with conn:
-        # # create a new project
-        # project = ('Cool App with SQLite & Python', '2015-01-01', '2015-01-30');
-        # project_id = create_project(conn, project)
-        #
-        # # tasks
-        # task_1 = ('Analyze the requirements of the app', 1, 1, project_id, '2015-01-01', '2015-01-02')
-        # task_2 = ('Confirm with user about the top requirements', 1, 1, project_id, '2015-01-03', '2015-01-05')
-        #
-        # # create tasks
-        # create_task(conn, task_1)
-        # create_task(conn, task_2)
 
 
 if __name__ == '__main__':
