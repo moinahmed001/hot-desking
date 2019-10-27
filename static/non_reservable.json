@@ -1,0 +1,15 @@
+
+[
+  {
+    "id": 11,
+    "floor": 1,
+    "seat_number": 11,
+    "name": "user 11"
+  },
+  {
+    "id": 12,
+    "floor": 1,
+    "seat_number": 12,
+    "name": "user 12"
+  }
+]

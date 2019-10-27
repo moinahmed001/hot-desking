@@ -1,0 +1,17 @@
+[{
+  "date": "17/01/2019",
+  "data": [
+    {
+      "id": 7,
+      "floor": 1,
+      "seat_number": 7,
+      "name": "user 7"
+    },
+    {
+      "id": 8,
+      "floor": 1,
+      "seat_number": 8,
+      "name": "user 8"
+    }
+  ]
+}]

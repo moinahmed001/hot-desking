@@ -1,0 +1,36 @@
+/* betweeen two dates*/
+[{
+  "date": "01/01/2019",
+  "data": [
+    {
+      "id": 1,
+      "floor": 1,
+      "seat_number": 1,
+      "available_full_day": false,
+      "available_from": "09:00",
+      "available_to": "13:00",
+      "name": "user 1"
+    },
+    {
+      "id": 3,
+      "floor": 1,
+      "seat_number": 3,
+      "available_full_day": true,
+      "name": "user 3"
+    }
+  ]
+},{
+  "date": "02/01/2019",
+  "data": [
+    {
+      "id": 2,
+      "floor": 1,
+      "seat_number": 2,
+      "available_full_day": false,
+      "available_from": "09:00",
+      "available_to": "13:00",
+      "name": "user 1"
+    }
+  ]
+}
+]
