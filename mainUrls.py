@@ -24,11 +24,11 @@ CORS(app)
 cache.init_app(app)
 
 @app.route("/")
+@app.route("/index")
 def available_desks():
     # call api /api/available_desks?from=01012019&to=20012019
-    return "My flask app"
-
-
+    user = {'username': 'Miguel'}
+    return render_template('index.html', title='Home', user=user)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -18,10 +18,10 @@ def api_create_desk():
     desk = (int(floor), int(desk_number), name, int(standing_desk), notes)
     desk_id=0
 
-    database = r"/Users/jakir/Google Drive/apache/hot-desking/hotDeskingDB.db"
+
 
     # create a database connection
-    conn = create_connection(database)
+    conn = create_connection()
     with conn:
         desk_id = create_desk(conn, desk)
 
