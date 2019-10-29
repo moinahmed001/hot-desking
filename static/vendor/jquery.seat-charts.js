@@ -7,16 +7,16 @@
  */
 
 (function($) {
-		
-	//'use strict';	
-		
+
+	//'use strict';
+
 	$.fn.seatCharts = function (setup) {
 
 		//if there's seatCharts object associated with the current element, return it
 		if (this.data('seatCharts')) {
 			return this.data('seatCharts');
 		}
-		
+
 		var fn       = this,
 			seats    = {},
 			seatIds  = [],
@@ -32,7 +32,7 @@
 					getLabel : function (character, row, column) {
 						return column;
 					}
-					
+
 				},
 				legend : {
 					node   : null,
@@ -47,7 +47,7 @@
 					} else {
 						return this.style();
 					}
-					
+
 				},
 				focus  : function() {
 
@@ -61,13 +61,13 @@
 					return this.status();
 				},
 				seats   : {}
-			
+
 			},
 			//seat will be basically a seat object which we'll when generating the map
 			seat = (function(seatCharts, seatChartsSettings) {
 				return function (setup) {
 					var fn = this;
-					
+
 					fn.settings = $.extend({
 						status : 'available', //available, unavailable, selected
 						style  : 'available',
@@ -77,7 +77,7 @@
 					}, setup);
 
 					fn.settings.$node = $('<div></div>');
-					
+
 					fn.settings.$node
 						.attr({
 							id             : fn.settings.id,
@@ -89,22 +89,22 @@
 						.text(fn.settings.label)
 						.addClass(['seatCharts-seat', 'seatCharts-cell', 'available'].concat(
 							//let's merge custom user defined classes with standard JSC ones
-							fn.settings.classes, 
-							typeof seatChartsSettings.seats[fn.settings.character] == "undefined" ? 
+							fn.settings.classes,
+							typeof seatChartsSettings.seats[fn.settings.character] == "undefined" ?
 								[] : seatChartsSettings.seats[fn.settings.character].classes
 							).join(' '));
-					
+
 					//basically a wrapper function
 					fn.data = function() {
 						return fn.settings.data;
 					};
-					
+
 					fn.char = function() {
 						return fn.settings.character;
 					};
-					
+
 					fn.node = function() {
-						return fn.settings.$node;						
+						return fn.settings.$node;
 					};
 
 					/*
@@ -124,7 +124,7 @@
 								if (newStyle == oldStyle) {
 									return oldStyle;
 								}
-								
+
 								//focused is a special style which is not associated with status
 								fn.settings.status = newStyle != 'focused' ? newStyle : fn.settings.status;
 								fn.settings.$node
@@ -134,23 +134,23 @@
 								seatChartsSettings.animate ?
 									fn.settings.$node.switchClass(oldStyle, newStyle, 200) :
 									fn.settings.$node.removeClass(oldStyle).addClass(newStyle);
-									
+
 								return fn.settings.style = newStyle;
 							})(arguments[0]) : fn.settings.style;
 					};
-					
+
 					//either set or retrieve
 					fn.status = function() {
-	
-						return fn.settings.status = arguments.length == 1 ? 
+
+						return fn.settings.status = arguments.length == 1 ?
 							fn.style(arguments[0]) : fn.settings.status;
 					};
-					
+
 					//using immediate function to convienietly get shortcut variables
 					(function(seatSettings, character, seat) {
 						//attach event handlers
 						$.each(['click', 'focus', 'blur'], function(index, callback) {
-						
+
 							//we want to be able to call the functions for each seat object
 							fn[callback] = function() {
 								if (callback == 'focus') {
@@ -161,7 +161,7 @@
 									seatCharts.attr('aria-activedescendant', seat.settings.id);
 									seat.node().focus();
 								}
-							
+
 								/*
 								 * User can pass his own callback function, so we have to first check if it exists
 								 * and if not, use our default callback.
@@ -171,24 +171,24 @@
 								return fn.style(typeof seatSettings[character][callback] === 'function' ?
 									seatSettings[character][callback].apply(seat) : seatChartsSettings[callback].apply(seat));
 							};
-							
+
 						});
-					//the below will become seatSettings, character, seat thanks to the immediate function		
+					//the below will become seatSettings, character, seat thanks to the immediate function
 					})(seatChartsSettings.seats, fn.settings.character, fn);
-							
+
 					fn.node()
 						//the first three mouse events are simple
 						.on('click',      fn.click)
 						.on('mouseenter', fn.focus)
 						.on('mouseleave', fn.blur)
-						
+
 						//keydown requires quite a lot of logic, because we have to know where to move the focus
 						.on('keydown',    (function(seat, $seat) {
-						
+
 							return function (e) {
-								
+
 								var $newSeat;
-								
+
 								//everything depends on the pressed key
 								switch (e.which) {
 									//spacebar will just trigger the same event mouse click does
@@ -200,19 +200,19 @@
 									case 40:
 									case 38:
 										e.preventDefault();
-										
+
 										/*
 										 * This is a recursive, immediate function which searches for the first "focusable" row.
-										 * 
+										 *
 										 * We're using immediate function because we want a convenient access to some DOM elements
 										 * We're using recursion because sometimes we may hit an empty space rather than a seat.
 										 *
 										 */
 										$newSeat = (function findAvailable($rows, $seats, $currentRow) {
 											var $newRow;
-											
+
 											//let's determine which row should we move to
-											
+
 											if (!$rows.index($currentRow) && e.which == 38) {
 												//if this is the first row and user has pressed up arrow, move to the last row
 												$newRow = $rows.last();
@@ -225,15 +225,15 @@
 													//if up arrow, then decrement the index, if down increment it
 													$rows.index($currentRow) + (e.which == 38 ? (-1) : (+1))
 												);
-											}												
-											
+											}
+
 											//now that we know the row, let's get the seat using the current column position
 											$newSeat = $newRow.find('.seatCharts-seat,.seatCharts-space').eq($seats.index($seat));
-											
+
 											//if the seat we found is a space, keep looking further
 											return $newSeat.hasClass('seatCharts-space') ?
 												findAvailable($rows, $seats, $newRow) : $newSeat;
-											
+
 										})($seat
 											//get a reference to the parent container and then select all rows but the header
 												.parents('.seatCharts-container')
@@ -245,21 +245,21 @@
 											//get a reference to the current row
 											$seat.parents('.seatCharts-row:not(.seatCharts-header)')
 										);
-										
+
 										//we couldn't determine the new seat, so we better give up
 										if (!$newSeat.length) {
 											return;
 										}
-										
+
 										//remove focus from the old seat and put it on the new one
 										seat.blur();
 										seats[$newSeat.attr('id')].focus();
 										$newSeat.focus();
-										
+
 										//update our "aria" reference with the new seat id
 										seatCharts.attr('aria-activedescendant', $newSeat.attr('id'));
-																			
-										break;										
+
+										break;
 									//LEFT & RIGHT
 									case 37:
 									case 39:
@@ -270,7 +270,7 @@
 										 * it will move to the next row when we reach the right/left-most seat.
 										 */
 										$newSeat = (function($seats) {
-										
+
 											if (!$seats.index($seat) && e.which == 37) {
 												//user has pressed left arrow and we're currently on the left-most seat
 												return $seats.last();
@@ -285,36 +285,36 @@
 										})($seat
 											.parents('.seatCharts-container:first')
 											.find('.seatCharts-seat:not(.seatCharts-space)'));
-										
+
 										if (!$newSeat.length) {
 											return;
 										}
-											
+
 										//handle focus
-										seat.blur();	
+										seat.blur();
 										seats[$newSeat.attr('id')].focus();
 										$newSeat.focus();
-										
+
 										//update our "aria" reference with the new seat id
 										seatCharts.attr('aria-activedescendant', $newSeat.attr('id'));
-										break;	
+										break;
 									default:
 										break;
-								
+
 								}
 							};
-								
+
 						})(fn, fn.node()));
 						//.appendTo(seatCharts.find('.' + row));
 
 				}
 			})(fn, settings);
-			
+
 		fn.addClass('seatCharts-container');
-		
+
 		//true -> deep copy!
-		$.extend(true, settings, setup);		
-		
+		$.extend(true, settings, setup);
+
 		//Generate default row ids unless user passed his own
 		settings.naming.rows = settings.naming.rows || (function(length) {
 			var rows = [];
@@ -323,25 +323,25 @@
 			}
 			return rows;
 		})(settings.map.length);
-		
+
 		//Generate default column ids unless user passed his own
 		settings.naming.columns = settings.naming.columns || (function(length) {
 			var columns = [];
-			for (var i = 1; i <= length; i++) {
+			for (var i = 67; i <= length+67; i++) {
 				columns.push(i);
 			}
 			return columns;
 		})(settings.map[0].split('').length);
-		
+
 		if (settings.naming.top) {
 			var $headerRow = $('<div></div>')
 				.addClass('seatCharts-row seatCharts-header');
-			
+
 			if (settings.naming.left) {
 				$headerRow.append($('<div></div>').addClass('seatCharts-cell'));
 			}
-			
-				
+
+
 			$.each(settings.naming.columns, function(index, value) {
 				$headerRow.append(
 					$('<div></div>')
@@ -350,14 +350,14 @@
 				);
 			});
 		}
-		
+
 		fn.append($headerRow);
-		
+
 		//do this for each map row
 		$.each(settings.map, function(row, characters) {
 
 			var $row = $('<div></div>').addClass('seatCharts-row');
-				
+
 			if (settings.naming.left) {
 				$row.append(
 					$('<div></div>')
@@ -383,8 +383,8 @@
 			 * Allowed characters in labels are: 0-9, a-z, A-Z, _, ' ' (space)
 			 *
 			 */
-			 
-			$.each(characters.match(/[a-z_]{1}(\[[0-9a-z_]{0,}(,[0-9a-z_ ]+)?\])?/gi), function (column, characterParams) { 
+
+			$.each(characters.match(/[a-z_]{1}(\[[0-9a-z_]{0,}(,[0-9a-z_ ]+)?\])?/gi), function (column, characterParams) {
 				var matches         = characterParams.match(/([a-z_]{1})(\[([0-9a-z_ ,]+)\])?/i),
 					//no matter if user specifies [] params, the character should be in the second element
 					character       = matches[1],
@@ -394,14 +394,14 @@
 					overrideId      = params.length ? params[0] : null,
 					//label param should be second
 					overrideLabel   = params.length === 2 ? params[1] : null;
-								
+
 				$row.append(character != '_' ?
 					//if the character is not an underscore (empty space)
 					(function(naming) {
-	
+
 						//so users don't have to specify empty objects
 						settings.seats[character] = character in settings.seats ? settings.seats[character] : {};
-	
+
 						var id = overrideId ? overrideId : naming.getId(character, naming.rows[row], naming.columns[column]);
 						seats[id] = new seat({
 							id        : id,
@@ -414,26 +414,26 @@
 
 						seatIds.push(id);
 						return seats[id].node();
-						
+
 					})(settings.naming) :
 					//this is just an empty space (_)
-					$('<div></div>').addClass('seatCharts-cell seatCharts-space')	
+					$('<div></div>').addClass('seatCharts-cell seatCharts-space')
 				);
 			});
-			
+
 			fn.append($row);
 		});
-	
+
 		//if there're any legend items to be rendered
 		settings.legend.items.length ? (function(legend) {
 			//either use user-defined container or create our own and insert it right after the seat chart div
 			var $container = (legend.node || $('<div></div>').insertAfter(fn))
 				.addClass('seatCharts-legend');
-				
+
 			var $ul = $('<ul></ul>')
 				.addClass('seatCharts-legendList')
 				.appendTo($container);
-			
+
 			$.each(legend.items, function(index, item) {
 				$ul.append(
 					$('<li></li>')
@@ -442,7 +442,7 @@
 							$('<div></div>')
 								//merge user defined classes with our standard ones
 								.addClass(['seatCharts-seat', 'seatCharts-cell', item[1]].concat(
-									settings.classes, 
+									settings.classes,
 									typeof settings.seats[item[0]] == "undefined" ? [] : settings.seats[item[0]].classes).join(' ')
 								)
 						)
@@ -453,26 +453,26 @@
 						)
 				);
 			});
-			
+
 			return $container;
 		})(settings.legend) : null;
-	
+
 		fn.attr({
 			tabIndex : 0
 		});
-		
-		
+
+
 		//when container's focused, move focus to the first seat
 		fn.focus(function() {
 			if (fn.attr('aria-activedescendant')) {
 				seats[fn.attr('aria-activedescendant')].blur();
 			}
-				
+
 			fn.find('.seatCharts-seat:not(.seatCharts-space):first').focus();
 			seats[seatIds[0]].focus();
 
 		});
-	
+
 		//public methods of seatCharts
 		fn.data('seatCharts', {
 			seats   : seats,
@@ -480,9 +480,9 @@
 			//set for one, set for many, get for one
 			status: function() {
 				var fn = this;
-			
+
 				return arguments.length == 1 ? fn.seats[arguments[0]].status() : (function(seatsIds, newStatus) {
-				
+
 					return typeof seatsIds == 'string' ? fn.seats[seatsIds].status(newStatus) : (function() {
 						$.each(seatsIds, function(index, seatId) {
 							fn.seats[seatId].status(newStatus);
@@ -492,13 +492,13 @@
 			},
 			each  : function(callback) {
 				var fn = this;
-			
+
 				for (var seatId in fn.seats) {
 					if (false === callback.call(fn.seats[seatId], seatId)) {
 						return seatId;//return last checked
 					}
 				}
-				
+
 				return true;
 			},
 			node       : function() {
@@ -509,9 +509,9 @@
 
 			find       : function(query) {//D, a.available, unavailable
 				var fn = this;
-			
+
 				var seatSet = fn.set();
-			
+
 				//is RegExp
 		                return query instanceof RegExp ?
 		                    (function () {
@@ -530,7 +530,7 @@
 		                                        seatSet.push(this.settings.id, this);
 		                                    }
 		                                });
-		
+
 		                                return seatSet;
 		                            })(query) :
 		                            (function () {
@@ -539,13 +539,13 @@
 		                                    (function () {
 		                                        //there's a dot which separates character and the status
 		                                        var parts = query.split('.');
-		
+
 		                                        fn.each(function (seatId) {
 		                                            if (this.char() == parts[0] && this.status() == parts[1]) {
 		                                                seatSet.push(this.settings.id, this);
 		                                            }
 		                                        });
-		
+
 		                                        return seatSet;
 		                                    })() :
 		                                    (function () {
@@ -558,11 +558,11 @@
 		                                    })();
 		                            })()
 		                    );
-				
+
 			},
 			set        : function set() {//inherits some methods
 				var fn = this;
-				
+
 				return {
 					seats      : [],
 					seatIds    : [],
@@ -604,24 +604,24 @@
 			get   : function(seatsIds) {
 				var fn = this;
 
-				return typeof seatsIds == 'string' ? 
+				return typeof seatsIds == 'string' ?
 					fn.seats[seatsIds] : (function() {
-						
+
 						var seatSet = fn.set();
-						
+
 						$.each(seatsIds, function(index, seatId) {
 							if (typeof fn.seats[seatId] === 'object') {
 								seatSet.push(seatId, fn.seats[seatId]);
 							}
 						});
-						
+
 						return seatSet;
 					})();
 			}
 		});
-		
+
 		return fn.data('seatCharts');
 	}
-	
-	
+
+
 })(jQuery);

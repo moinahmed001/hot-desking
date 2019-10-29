@@ -3,7 +3,7 @@ from sqlite3 import Error
 
 
 def create_connection():
-    db_file = r"/Users/jakir/Google Drive/apache/hot-desking/hotDeskingDB.db"
+    db_file = r"/Users/mah54/Google Drive/apache/hot-desking/hotDeskingDB.db"
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -48,8 +48,7 @@ def get_all_available_desks_with_date(conn, date):
 
 
 def main():
-    database = r"/Users/jakir/Google Drive/apache/hot-desking/hotDeskingDB.db"
-    conn = create_connection(database)
+    conn = create_connection()
     if conn is not None:
         print("success.")
     else:
