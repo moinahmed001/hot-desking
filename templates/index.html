@@ -1,164 +1,72 @@
-<html>
-    <head>
-      <link rel="stylesheet" href="static/vendor/jquery.seat-charts.css">
-      <script src="//code.jquery.com/jquery.min.js"></script>
-      <script src="static/vendor/jquery.seat-charts.js"></script>
-      <title>{{ title }} - Microblog</title>
-      <style>
-      </style>
-    </head>
-    <body>
-        <h1>Hello, {{ user.username }}!</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-        <div id="seat-map">
-          <div class="front-indicator">Front</div>
-        </div>
+<head>
 
-        <div class="booking-details">
-          <h2>Booking Details</h2>
-          <h3> Selected Seats (<span id="counter">0</span>):</h3>
-          <ul id="selected-seats">
-          </ul>
-          Total: <b>$<span id="total">0</span></b>
-          <button class="checkout-button">Checkout &raquo;</button>
-          <div id="legend"></div>
-        </div>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-        <div id="legend21"></div>
-        <script>
-        			var firstSeatLabel = 1;
+  <title>Simple Sidebar - Start Bootstrap Template</title>
 
-        			$(document).ready(function() {
-                i=67;
-                while (i < 159){
-                  //int(floor), int(desk_number), name, int(standing_desk), notes)
-                  // $('#legend21').append("INSERT INTO all_desks(floor,desk_number,name,standing_desk,notes) VALUES(1,"+i+",'user"+i+"',"+(Math.floor(Math.random() * 2))+",'');");
-                  // $('#legend21').append("INSERT INTO available_desks(all_desks_id,available_types_id,date) VALUES("+i+","+ (Math.floor(Math.random() * 3) + 1)  +",'2019-11-"+(Math.floor(Math.random() * 29) + 1)  +"');");
-                  i++;
-                }
+  <!-- Bootstrap core CSS -->
+  <link href="static/vendor/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="static/vendor/simple-sidebar.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/vendor/main.css">
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    {% include 'include/sidebar.html' %}
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        {% include 'include/nav.html' %}
 
 
+      <div class="container-fluid">
+        <h1 class="mt-4">Simple Sidebar</h1>
+        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
+        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
 
-        				var $cart = $('#selected-seats'),
-        					$counter = $('#counter'),
-        					$total = $('#total'),
-        					sc = $('#seat-map').seatCharts({
-        					map: [
-        						'ffffff',
-        						'ffffff',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        						'eeeeee',
-        						'eeeeee',
-                                '______',
-        					],
-        					seats: {
-        						f: {
-        							price   : 100,
-        							classes : 'first-class', //your custom CSS class
-        							category: 'First Class'
-        						},
-        						e: {
-        							price   : 40,
-        							classes : 'economy-class', //your custom CSS class
-        							category: 'Economy Class'
-        						}
+  </div>
+  <!-- /#wrapper -->
+  <div id="legend21"></div>
 
-        					},
-        					naming : {
-        						top : false,
-        						getLabel : function (character, row, column) {
-        							return firstSeatLabel++;
-        						},
-        					},
-        					legend : {
-        						node : $('#legend'),
-        					    items : [
-        							[ 'f', 'available',   'First Class' ],
-        							[ 'e', 'available',   'Economy Class'],
-        							[ 'f', 'unavailable', 'Already Booked']
-        					    ]
-        					},
-        					click: function () {
-        						if (this.status() == 'available') {
-        							//let's create a new <li> which we'll add to the cart items
-        							$('<li>'+this.data().category+' Seat # '+this.settings.label+': <b>$'+this.data().price+'</b> <a href="#" class="cancel-cart-item">[cancel]</a></li>')
-        								.attr('id', 'cart-item-'+this.settings.id)
-        								.data('seatId', this.settings.id)
-        								.appendTo($cart);
+  <!-- Bootstrap core JavaScript -->
+  <script src="static/vendor/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap.bundle.min.js"></script>
 
-        							/*
-        							 * Lets update the counter and total
-        							 *
-        							 * .find function will not find the current seat, because it will change its stauts only after return
-        							 * 'selected'. This is why we have to add 1 to the length and the current seat price to the total.
-        							 */
-        							$counter.text(sc.find('selected').length+1);
-        							$total.text(recalculateTotal(sc)+this.data().price);
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+    var firstSeatLabel = 1;
 
-        							return 'selected';
-        						} else if (this.status() == 'selected') {
-        							//update the counter
-        							$counter.text(sc.find('selected').length-1);
-        							//and total
-        							$total.text(recalculateTotal(sc)-this.data().price);
+    $(document).ready(function() {
+        i=67;
+        while (i < 159){
+          //int(floor), int(desk_number), name, int(standing_desk), notes)
+          // $('#legend21').append("INSERT INTO all_desks(floor,desk_number,name,standing_desk,notes) VALUES(1,"+i+",'user"+i+"',"+(Math.floor(Math.random() * 2))+",'');");
+          // $('#legend21').append("INSERT INTO available_desks(all_desks_id,available_types_id,date) VALUES("+i+","+ (Math.floor(Math.random() * 3) + 1)  +",'2019-11-"+(Math.floor(Math.random() * 29) + 1)  +"');");
+          i++;
+        }
 
-        							//remove the item from our cart
-        							$('#cart-item-'+this.settings.id).remove();
+    });
+  </script>
 
-        							//seat has been vacated
-        							return 'available';
-        						} else if (this.status() == 'unavailable') {
-        							//seat has been already booked
-        							return 'unavailable';
-        						} else {
-        							return this.style();
-        						}
-        					}
-        				});
+</body>
 
-        				//this will handle "[cancel]" link clicks
-        				$('#selected-seats').on('click', '.cancel-cart-item', function () {
-        					//let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
-        					sc.get($(this).parents('li:first').data('seatId')).click();
-        				});
-
-        				//let's pretend some seats have already been booked
-        				sc.get(['1_2', '4_1', '7_1', '7_2', '7_5']).status('unavailable');
-
-        		});
-
-        		function recalculateTotal(sc) {
-        			var total = 0;
-
-        			//basically find every selected seat and sum its price
-        			sc.find('selected').each(function () {
-        				total += this.data().price;
-        			});
-
-        			return total;
-        		}
-
-        		</script>
-    </body>
 </html>
