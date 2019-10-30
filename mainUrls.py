@@ -31,5 +31,11 @@ def available_desks():
     available_desks = get_available_desks(date)
     return render_template('index.html', available_desks=available_desks, date=date)
 
+@app.route("/all-available-desks")
+def all_available_desks():
+    available_desks = get_all_available_desks()
+    return render_template('all-available-desks.html', available_desks=available_desks)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
