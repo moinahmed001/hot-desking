@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from connection import *
 from flask import Response
 from model.available_desks_model import *
+from model.all_desks_model import *
 
 import json
 
@@ -31,7 +32,6 @@ def api_create_desk():
 @api_urls.route('/api/create_available_desk', methods=['POST'])
 def api_create_available_desk():
     result = request.form
-# all_desks_id,available_types_id,date
 
     all_desks_id = result['all_desks_id']
     available_types_id = result['available_types_id']
