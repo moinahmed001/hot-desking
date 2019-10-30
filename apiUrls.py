@@ -1,8 +1,9 @@
 from flask import Blueprint
 from flask import jsonify
 from flask import Flask, render_template, request
-from connection import create_desk, create_connection, get_all_fields_for_table, get_field_from_table, get_all_available_desks_with_date, create_available_desk
+from connection import *
 from flask import Response
+from model.available_desks_model import *
 
 import json
 
@@ -61,27 +62,10 @@ def api_all_desks():
 
 @api_urls.route('/api/all_available_desks')
 def api_all_available_desks():
-    all_desks = []
-    conn = create_connection()
-    with conn:
-        all_dates = get_field_from_table(conn, "available_desks", "date")
-        for given_date in all_dates:
-            print(given_date[0])
-            available_desks = get_all_available_desks_with_date(conn, given_date[0])
-            given_date_data = []
-            for available_desk in available_desks:
-                given_date_data.append({"floor":available_desk[5], "desk_number":available_desk[6], "name":available_desk[7], "standing_desk":bool(available_desk[8]), "notes":available_desk[9], "full_day": bool(available_desk[11]), "available_from": available_desk[12], "available_to": available_desk[13]})
-            all_desks.append({"date": given_date[0], "data": given_date_data})
-
+    all_desks = get_all_available_desks()
     return Response(json.dumps(all_desks),  mimetype='application/json')
 
 @api_urls.route('/api/all_available_desks/<given_date>')
 def api_all_available_desks_for_given_date(given_date):
-    all_desks = []
-    conn = create_connection()
-    with conn:
-        available_desks = get_all_available_desks_with_date(conn, given_date)
-        for available_desk in available_desks:
-            all_desks.append({"floor":available_desk[5], "desk_number":available_desk[6], "name":available_desk[7], "standing_desk":bool(available_desk[8]), "notes":available_desk[9], "full_day": bool(available_desk[11]), "available_from": available_desk[12], "available_to": available_desk[13]})
-
+    all_desks = get_available_desks(given_date)
     return Response(json.dumps(all_desks),  mimetype='application/json')

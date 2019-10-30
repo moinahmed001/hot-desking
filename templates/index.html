@@ -24,7 +24,6 @@
 
     <!-- Sidebar -->
     {% include 'include/sidebar.html' %}
-    <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
@@ -32,20 +31,30 @@
 
 
       <div class="container-fluid">
-        <h1 class="mt-4">Simple Sidebar</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+        <h1 class="mt-4">Date: {{ date }}</h1>
+        <p>{{ available_desks }}</p>
+        <table>
+            <tbody>
+                <tr><td> Key </td><td>Value</td></tr>
+              {% for desk in available_desks %}
+                {% for i, j in desk.items() %}
+                    <tr>
+                      <td>{{ i }}</td>
+                      <td>{{ j }}</td>
+                    </tr>
+                {% endfor %}
+                <tr><td>&nbsp;</td><td></td></tr>
+              {% endfor %}
+            </tbody>
+        </table>
       </div>
-    </div>
-    <!-- /#page-content-wrapper -->
 
-  </div>
-  <!-- /#wrapper -->
+    </div> <!-- /#page-content-wrapper -->
+
+  </div> <!-- /#wrapper -->
   <div id="legend21"></div>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="static/vendor/jquery.min.js"></script>
-  <script src="static/vendor/bootstrap.bundle.min.js"></script>
+  {% include 'include/bottom-js.html' %}
 
   <!-- Menu Toggle Script -->
   <script>

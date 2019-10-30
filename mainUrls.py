@@ -5,7 +5,7 @@ from flask_caching import Cache
 from flask_cors import CORS, cross_origin
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 from flask_bootstrap import Bootstrap
-from connection import main as connect_to_db
+from model.available_desks_model import *
 
 import time
 import json
@@ -27,8 +27,9 @@ cache.init_app(app)
 @app.route("/index")
 def available_desks():
     # call api /api/available_desks?from=01012019&to=20012019
-    user = {'username': 'Miguel'}
-    return render_template('index.html', title='Home', user=user)
+    date = '2019-11-1'
+    available_desks = get_available_desks(date)
+    return render_template('index.html', available_desks=available_desks, date=date)
 
 if __name__ == "__main__":
     app.run(debug=True)
