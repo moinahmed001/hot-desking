@@ -37,21 +37,33 @@
         <table border="1">
             <tbody>
               {% for desk in all_desks %}
-
-
+              {% if loop.index0 % 6 == 0 %}
+                <tr>
+              {% endif %}
                   {% if loop.index0 % 12 < 6 %}
-                    <tr>
-                      <td><img src="static/images/desk.png" alt="Desk Icon" /></td>
-                      <td>
+
+                      <td><img src="static/images/desk.png" alt="Desk Icon" />
                         {% for i, j in desk.items() %}
                             {{ i }} : {{ j }}
                         {% endfor %}
                       </td>
-                  </tr>
+
+                  {% else %}
+                  <td><img src="static/images/desk.png" alt="Desk Icon" />
+                    {% for i, j in desk.items() %}
+                        {{ i }} : {{ j }}
+                    {% endfor %}
+                  </td>
                   {% endif %}
 
-                  {% if loop.index0 % 12 == 0 %}
-                    <tr><td>&nbsp;</td><td></td></tr>
+                {% if loop.index0 % 6 == 5 %}
+                  </tr>
+                {% endif %}
+
+
+                  {% if loop.index0 % 12 == 11 %}
+                    <tr><td colspan="6">&nbsp;</td></tr>
+
                   {% endif %}
 
               {% endfor %}
