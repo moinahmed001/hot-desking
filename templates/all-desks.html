@@ -27,49 +27,39 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        {% include 'include/nav.html' %}
+      {% include 'include/nav.html' %}
 
 
       <div class="container-fluid">
-        <h1 class="mt-4">Date: {{ date }}</h1>
+        <h1 class="mt-4">All Desks</h1>
         <p>
-
-        <table border="1">
+          <table border="1">
             <tbody>
               {% for desk in all_desks %}
-              {% if loop.index0 % 6 == 0 %}
-                <tr>
-              {% endif %}
-                  {% if loop.index0 % 12 < 6 %}
-
-                      <td><img src="static/images/desk.png" alt="Desk Icon" />
-                        {% for i, j in desk.items() %}
-                            {{ i }} : {{ j }}
-                        {% endfor %}
-                      </td>
-
-                  {% else %}
+                {% if loop.index0 % 6 == 0 %}
+                  <tr>
+                {% endif %}
                   <td><img src="static/images/desk.png" alt="Desk Icon" />
+                    {{ desk['desk_number'] }}
+                    {#
                     {% for i, j in desk.items() %}
-                        {{ i }} : {{ j }}
-                    {% endfor %}
-                  </td>
-                  {% endif %}
 
+                      {{ i }} : {{ j }}
+                    {% endfor %}
+                    #}
+                  </td>
                 {% if loop.index0 % 6 == 5 %}
                   </tr>
                 {% endif %}
 
 
-                  {% if loop.index0 % 12 == 11 %}
-                    <tr><td colspan="6">&nbsp;</td></tr>
-
-                  {% endif %}
+                {% if loop.index0 % 12 == 11 %}
+                  <tr><td colspan="6">&nbsp;</td></tr>
+                {% endif %}
 
               {% endfor %}
             </tbody>
-        </table>
-
+          </table>
         </p>
         <div class=""></div>
 
@@ -83,14 +73,14 @@
 
   <!-- Menu Toggle Script -->
   <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
+  $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
 
-    $(document).ready(function() {
+  $(document).ready(function() {
 
-    });
+  });
   </script>
 
 </body>
