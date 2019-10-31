@@ -51,13 +51,7 @@ def api_create_available_desk():
 
 @api_urls.route('/api/all_desks')
 def api_all_desks():
-    all_desks = []
-    conn = create_connection()
-    with conn:
-        desks = get_all_fields_for_table(conn, "all_desks")
-        for desk in desks:
-            all_desks.append({"floor":desk[1], "desk_number":desk[2], "name":desk[3], "standing_desk":bool(desk[4]), "notes":desk[5]})
-
+    all_desks = get_all_desks()
     return Response(json.dumps(all_desks),  mimetype='application/json')
 
 @api_urls.route('/api/all_available_desks')

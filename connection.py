@@ -3,7 +3,7 @@ from sqlite3 import Error
 
 
 def create_connection():
-    db_file = r"/Users/mah54/Google Drive/apache/hot-desking/hotDeskingDB.db"
+    db_file = r"./hotDeskingDB.db"
     conn = None
     try:
         conn = sqlite3.connect(db_file)

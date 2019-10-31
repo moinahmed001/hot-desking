@@ -6,6 +6,7 @@ from flask_cors import CORS, cross_origin
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 from flask_bootstrap import Bootstrap
 from model.available_desks_model import *
+from model.all_desks_model import *
 
 import time
 import json
@@ -35,6 +36,11 @@ def available_desks():
 def all_available_desks():
     available_desks = get_all_available_desks()
     return render_template('all-available-desks.html', available_desks=available_desks)
+
+@app.route("/all-desks")
+def all_desks():
+    all_desks = get_all_desks()
+    return render_template('all-desks.html', all_desks=all_desks)
 
 
 if __name__ == "__main__":
