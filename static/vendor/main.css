@@ -1,0 +1,13 @@
+.empty-row{
+    padding: 10px;
+}
+
+.desk{
+    padding: 35px;
+    border: 1px solid #9f9fbd;
+    background-image: url('../images/desk.png1');
+    background-repeat: no-repeat;
+    background-position: center;
+    font-weight: bold;
+    color: blue
+}

@@ -33,34 +33,99 @@
       <div class="container-fluid">
         <h1 class="mt-4">All Desks</h1>
         <p>
-          <table border="1">
-            <tbody>
-              {% for desk in all_desks %}
-                {% if loop.index0 % 6 == 0 %}
-                  <tr>
-                {% endif %}
-                  <td><img src="static/images/desk.png" alt="Desk Icon" />
-                    {{ desk['desk_number'] }}
-                    {#
-                    {% for i, j in desk.items() %}
+            {% for items in desks_layed_out %}
 
-                      {{ i }} : {{ j }}
+                    {% for desks in items['one'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 3 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
-                    #}
-                  </td>
-                {% if loop.index0 % 6 == 5 %}
-                  </tr>
-                {% endif %}
+                    <div class="empty-row">&nbsp;</div>
 
+                    {% for desks in items['two'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="empty-row">&nbsp;</div>
 
-                {% if loop.index0 % 12 == 11 %}
-                  <tr><td colspan="6">&nbsp;</td></tr>
-                {% endif %}
+                    {% for desks in items['three'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div><div class="empty-row">&nbsp;</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
 
-              {% endfor %}
-            </tbody>
-          </table>
+                    {% for desks in items['four'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="empty-row">&nbsp;</div>
+                    {% endfor %}
+
+                    {% for desks in items['five'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div><div class="empty-row">&nbsp;</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for desks in items['six'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div><div class="empty-row">&nbsp;</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for desks in items['seven'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+            {% endfor %}
+
         </p>
+
         <div class=""></div>
 
       </div>
