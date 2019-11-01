@@ -122,6 +122,30 @@
                         {% endfor %}
                     {% endfor %}
 
+                    {% for desks in items['eight'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for desks in items['nine'] %}
+                        {% for desk in desks %}
+                        {% if loop.index0 == 0 %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">{{desk['desk_number']}}</div>
+                            {% if loop.index0 == 5 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
             {% endfor %}
 
         </p>

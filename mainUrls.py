@@ -54,7 +54,9 @@ def all_desks_layed_out():
     {'three': [fetch_desk(all_desks, 92, 86), fetch_desk(all_desks, 98, 92)]},
     {'four': [fetch_desk(all_desks, 104, 98), fetch_desk(all_desks, 110, 104)]},
     {'six': [fetch_desk(all_desks, 116, 110), fetch_desk(all_desks, 122, 116)]},
-    {'seven': [fetch_desk(all_desks, 128, 122), fetch_desk(all_desks, 134, 128)]}
+    {'seven': [fetch_desk(all_desks, 128, 122), fetch_desk(all_desks, 134, 128)]},
+    {'eight': [fetch_desk(all_desks, 140, 134), fetch_desk(all_desks, 146, 140)]},
+    {'nine': [fetch_desk(all_desks, 152, 146), fetch_desk(all_desks, 158, 152)]}
      ]
 
 def fetch_desk(all_desks, start, end_number):
