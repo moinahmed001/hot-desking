@@ -3,11 +3,22 @@
 }
 
 .desk{
-    padding: 35px;
-    border: 1px solid #9f9fbd;
-    background-image: url('../images/desk.png1');
-    background-repeat: no-repeat;
-    background-position: center;
-    font-weight: bold;
-    color: blue
+  width: 158px;
+  height: 101px;
+  text-align: center;
+  padding: 37px 10px 0 10px;
+  border: 1px solid #9f9fbd;
+  background-image: url(../images/desk.png);
+  background-repeat: no-repeat;
+  background-position: top;
+  margin-bottom: 2px;
+  margin-right: 2px;
+}
+.number{
+  font-weight: bold;
+  color: blue
+}
+.name{
+  font-weight: bold;
+  color: red;
 }

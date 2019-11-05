@@ -32,20 +32,22 @@
 
       <div class="container-fluid">
         <p>
-        <table>
-            <tbody>
-                <tr><td> Key </td><td>Value</td></tr>
-              {% for desk in available_desks %}
-                {% for i, j in desk.items() %}
-                    <tr>
-                      <td>{{ i }}</td>
-                      <td>{{ j }}</td>
-                    </tr>
-                {% endfor %}
-                <tr><td>&nbsp;</td><td></td></tr>
+            {% for items in available_desks %}
+                    {{items['date']}}
+                    {% for desk in items['data'] %}
+                        {% if loop.first %}
+                            <div class="row">
+                        {% endif %}
+                            <div class="desk">
+                              <div class="number">{{desk['desk_number']}}</div>
+                              <div class="name">{{desk['name']}}</div>
+                            </div>
+
+                            {% if loop.last %}
+                                </div>
+                            {% endif %}
+                    {% endfor %}
               {% endfor %}
-            </tbody>
-        </table>
         </p>
       </div>
 
