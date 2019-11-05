@@ -15,6 +15,10 @@ def get_all_available_desks():
     all_desks = []
     conn = create_connection()
     with conn:
+        # cur = conn.cursor()
+        # cur.execute("SELECT date FROM available_desks GROUP BY date(date) ORDER BY date(date) ASC")
+        # return cur.fetchall()
+
         all_dates = get_field_from_table(conn, "available_desks", "date")
         for given_date in all_dates:
             available_desks = get_all_available_desks_with_date(conn, given_date[0])
